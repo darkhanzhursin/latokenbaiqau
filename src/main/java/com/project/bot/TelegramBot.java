@@ -30,13 +30,30 @@ public class TelegramBot extends TelegramLongPollingBot {
             log.info("Message received: {}", message.getChatId());
             var messageText = message.getText();
             var response = ragAssistant.chat(chatId, messageText);
+            var testQuestion = ragAssistant.generateTest(chatId, messageText);
             try {
+                if (isUserResponseToTheQuestion(chatId, message)) {
+                    execute(new SendMessage(chatId.toString(), response));
+                    return;
+                }
                 execute(new SendMessage(chatId.toString(), response));
+                execute(new SendMessage(chatId.toString(), testQuestion));
             } catch (TelegramApiException e) {
                 log.error("Exception during processing telegram api: {}", e.getMessage());
             }
         }
     }
+
+    /**
+     * Determines if the given message is a user's response to a question.
+     *
+     * @param message the message to evaluate
+     * @return true if the message is a response to a question, false otherwise
+     */
+    private boolean isUserResponseToTheQuestion(Long chatId,Message message) {
+        return ragAssistant.isUserAnswer(chatId, message.getText());
+    }
+
 
     @Override
     public String getBotUsername() {

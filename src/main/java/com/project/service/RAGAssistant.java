@@ -13,4 +13,19 @@ public interface RAGAssistant {
                 """
     )
     String chat(@MemoryId Long memoryId, @UserMessage String userMessage);
+
+    @SystemMessage(
+        """
+            Now, generate a question in user language to test candidate based on the context.
+            If answer is not correct, just tell it.
+            """
+    )
+    String generateTest(@MemoryId Long memoryId, @UserMessage String userMessage);
+
+    @SystemMessage(
+        """
+            Check if it is the user answer to the previous question
+            """
+    )
+    boolean isUserAnswer(@MemoryId Long memoryId, @UserMessage String userMessage);
 }
