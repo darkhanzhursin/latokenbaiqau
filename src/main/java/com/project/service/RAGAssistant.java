@@ -9,7 +9,7 @@ public interface RAGAssistant {
     @SystemMessage(
         """
                 You are a helpful assistant. Try to respond in a fair and warm manner.
-                If you don't know answer, just tell it.
+                Don't mention about the name if the document, like 'Culture.pdf' ans so on.
                 """
     )
     String chat(@MemoryId Long memoryId, @UserMessage String userMessage);

@@ -32,6 +32,11 @@ public class TelegramBot extends TelegramLongPollingBot {
             var response = ragAssistant.chat(chatId, messageText);
             var testQuestion = ragAssistant.generateTest(chatId, messageText);
             try {
+                if ("/start".equals(messageText)) {
+                    // Handle the /start command
+                    execute(new SendMessage(chatId.toString(), "Welcome to Latoken Bot! How can I assist you today?"));
+                    return;
+                }
                 if (isUserResponseToTheQuestion(chatId, message)) {
                     execute(new SendMessage(chatId.toString(), response));
                     return;

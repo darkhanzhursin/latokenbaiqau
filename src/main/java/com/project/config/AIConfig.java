@@ -47,7 +47,7 @@ public class AIConfig {
         return AiServices.builder(RAGAssistant.class)
             .chatLanguageModel(chatLanguageModel())
             .retrievalAugmentor(retrievalAugmentor)
-            .chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(10))
+            .chatMemoryProvider(memoryId -> MessageWindowChatMemory.withMaxMessages(30))
             .build();
     }
 
